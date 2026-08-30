@@ -1,11 +1,13 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
-import { useHiddeBar } from "../contexts/HiddeBar";
+//import { useHiddeBar } from "../contexts/HiddeBar";
 import Buttons from "../interface/Button";
+import { useHiddenbar } from "../store/useHiddebar";
 
 export default function ShowMenu() {
   const [hover, setHover] = useState(false);
-  const { hiddeBar } = useHiddeBar();
+  //const { hiddeBar } = useHiddeBar();
+  const { hiddeBar } = useHiddenbar();
 
   const options: Buttons[] = [{ text: "Mostrar Banda de acciones rapidas" }];
 

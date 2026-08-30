@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Buttons from "../interface/Button";
-import { useHiddeBar } from "../contexts/HiddeBar";
+//import { useHiddeBar } from "../contexts/HiddeBar";
 import { EyeClosed } from "lucide-react";
+import { useHiddenbar } from "../store/useHiddebar";
 
 export default function ShowItems() {
-  const { hidden, hiddeBar } = useHiddeBar();
+  const { hidden, hiddeBar } = useHiddenbar();
   const [hover, setHover] = useState(false);
 
   const options: Buttons[] = [{ text: "Nueva nota" }, { text: "Opciones" }];

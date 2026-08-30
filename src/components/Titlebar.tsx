@@ -1,10 +1,12 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useHiddeBar } from "../contexts/HiddeBar";
+//import { useHiddeBar } from "../contexts/HiddeBar";
 import ShowItems from "./ShowItems.Titlebar";
 import ShowMenu from "./ShowMenu.Titlebar";
+import { useHiddenbar } from "../store/useHiddebar";
 
 export default function Titlebar() {
-  const { hidden } = useHiddeBar();
+  //const { hidden } = useHiddeBar();
+  const { hidden } = useHiddenbar();
 
   return (
     <div className="relative w-full h-8 overflow-hidden">
