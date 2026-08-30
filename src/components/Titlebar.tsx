@@ -6,7 +6,7 @@ import { useHiddenbar } from "../store/useHiddebar";
 
 export default function Titlebar() {
   //const { hidden } = useHiddeBar();
-  const { hidden } = useHiddenbar();
+  const hidden = useHiddenbar((state) => state.hidden);
 
   return (
     <div className="relative w-full h-8 overflow-hidden">

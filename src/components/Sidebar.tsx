@@ -44,7 +44,7 @@ export default function Sidebar() {
 
   return (
     <section className="h-full w-70 p-2 flex flex-col gap-1 border-l border-l-neutral-800">
-      <section className="w-full h-5 flex items-center pl-2 gap-2">
+      <section className="w-full h-5 flex items-center pl-3 gap-2">
         <button
           className="w-5 h-full cursor-pointer focus:outline-none"
           onClick={recorrerAtras}
@@ -57,10 +57,6 @@ export default function Sidebar() {
         >
           <ArrowRight color="white" width={11} height={11} />
         </button>
-
-        <p className="text-[11px] text-neutral-500 select-none">
-          Cambio de seccion
-        </p>
       </section>
       <section className="flex-1 flex flex-nowrap gap-1  overflow-hidden">
         {divs.map((div, i) => (
