@@ -22,7 +22,7 @@ export default function ShowMenu() {
   });
 
   return (
-    <section className="w-full h-7 flex items-center gap-3 pl-4 border-b border-b-neutral-700">
+    <section className="w-full h-7 flex items-center gap-3 pl-4">
       <button
         className="h-full text-[11px] flex items-center justify-center gap-2 transition-all duration-700  ease-in-out text-neutral-400 cursor-pointer focus:outline-none"
         onMouseEnter={() => setHover(true)}

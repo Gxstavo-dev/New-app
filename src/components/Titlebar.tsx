@@ -7,7 +7,7 @@ export default function Titlebar() {
   const { hidden } = useHiddeBar();
 
   return (
-    <div className="relative w-full h-7 overflow-hidden">
+    <div className="relative w-full h-8 overflow-hidden">
       <AnimatePresence mode="wait">
         {hidden ? (
           <motion.div

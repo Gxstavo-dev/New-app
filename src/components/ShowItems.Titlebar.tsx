@@ -20,7 +20,7 @@ export default function ShowItems() {
     );
   });
   return (
-    <section className="w-full h-7 flex items-center gap-3 pl-4 border-b border-b-neutral-700">
+    <section className="w-full h-7 flex items-center gap-3 pl-4">
       <button
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
