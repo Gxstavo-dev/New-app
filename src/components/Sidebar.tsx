@@ -43,8 +43,8 @@ export default function Sidebar() {
   };
 
   return (
-    <section className="h-full w-70 p-2 flex flex-col gap-1 border-l border-l-neutral-800">
-      <section className="w-full h-5 flex items-center pl-3 gap-2">
+    <section className="h-full w-70  flex flex-col gap-1 border-l border-l-neutral-800">
+      <section className="w-full h-6 flex pl-3 items-center border-b border-b-neutral-800">
         <button
           className="w-5 h-full cursor-pointer focus:outline-none"
           onClick={recorrerAtras}
