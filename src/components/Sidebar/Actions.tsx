@@ -2,12 +2,9 @@ import { Folder, FolderPlus, Folders, Star, Trash } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Card from './Card';
 import useHandlersFolder from '../../hooks/useHandlersFolder';
+import type { ShowCardState } from '../../interfaces/ShowCardState';
 
-interface ShowCardState {
-  show: boolean;
-  id: number | null;
-}
-
+// renderiza el panel de acciones con las carpetas y sus opciones
 export default function Actions() {
   const { handlegetValue, handlerCommit, handlerCreate, handlerDelete, startEditing, setEditingId, folders, editingId, value } = useHandlersFolder();
 
@@ -22,6 +19,7 @@ export default function Actions() {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // cierra el menu contextual si se hace click fuera del mismo
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
       if (cardRef.current && !cardRef.current.contains(target)) {
@@ -32,6 +30,7 @@ export default function Actions() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // abre el menu contextual de una carpeta y calcula su posicion
   const handleOpenMenu = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
     e.preventDefault();
     const { top, left } = e.currentTarget.getBoundingClientRect();

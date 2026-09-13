@@ -1,6 +1,7 @@
 import { Sidebar } from 'lucide-react';
 import { useHiddeBar } from '../../contexts/ToggleSidebar';
 
+// renderiza la cabecera de la barra con el boton que la oculta
 export default function Head() {
   const { toggle } = useHiddeBar();
 

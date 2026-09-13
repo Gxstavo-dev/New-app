@@ -1,23 +1,18 @@
-import { createContext, ReactNode, useContext, useState } from "react";
-
-interface ToggleSidebarType {
-  hidde: boolean;
-  toggle: () => void;
-}
-
-interface ToggleSidebarProviderTypes {
-  children: ReactNode;
-}
+import { createContext, useContext, useState } from 'react';
+import type { ToggleSidebarType } from '../interfaces/ToggleSidebarType';
+import type { ToggleSidebarProviderTypes } from '../interfaces/ToggleSidebarProviderTypes';
 
 const ToggleSidebarContext = createContext<ToggleSidebarType | undefined>(
   undefined,
 );
 
+// proveedor que guarda el estado de ocultar o mostrar la barra lateral
 export function ToggleSidebarProvider({
   children,
 }: ToggleSidebarProviderTypes) {
   const [hidde, setHidde] = useState(false);
 
+  // invierte el estado de ocultado
   const toggle = () => {
     setHidde(!hidde);
   };
@@ -29,6 +24,7 @@ export function ToggleSidebarProvider({
   );
 }
 
+// hook que da acceso al estado de la barra lateral desde cualquier componente
 export function useHiddeBar() {
   const context = useContext(ToggleSidebarContext);
   if (!context) {

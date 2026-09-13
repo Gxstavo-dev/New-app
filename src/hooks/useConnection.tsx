@@ -2,6 +2,8 @@ import { appDataDir } from '@tauri-apps/api/path';
 import Database from '@tauri-apps/plugin-sql';
 import { useEffect, useRef, useState } from 'react';
 
+// carga la base de datos sqlite desde el directorio de datos de la app
+// y crea las tablas notas y carpetas si no existen
 export async function Connection(): Promise<Database> {
   const dir = (await appDataDir()).replace(/\/$/, '');
   const db = await Database.load(`sqlite:${dir}/notas.db`);
@@ -11,6 +13,8 @@ export async function Connection(): Promise<Database> {
   return db;
 }
 
+// hook que inicializa la conexion a la base de datos una sola vez
+// y expone el estado de conexion, error y si ya se monto
 export function useConnection() {
   const [connexion, setConnexion] = useState<Database | null>(null);
   const [error, setError] = useState<Error | null>(null);

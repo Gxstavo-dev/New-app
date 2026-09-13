@@ -3,6 +3,7 @@ import { useHiddeBar } from '../contexts/ToggleSidebar';
 import Head from './Sidebar/Head';
 import Actions from './Sidebar/Actions';
 
+// renderiza la barra lateral y la oculta o muestra segun el estado
 export default function Sidebar() {
   const { hidde, toggle } = useHiddeBar();
   return (

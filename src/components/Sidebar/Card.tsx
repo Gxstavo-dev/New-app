@@ -1,5 +1,6 @@
 import { ReactNode, Ref } from 'react';
 
+// renderiza un popover posicionado respecto a un punto y recibe su contenido
 export default function Card({ top, left, id, children, ref }: { top: number; left: number; id: number; children: ReactNode; ref?: Ref<HTMLDivElement> }) {
   return (
     <div
