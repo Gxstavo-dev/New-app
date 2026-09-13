@@ -1,17 +1,13 @@
-import { appDataDir } from "@tauri-apps/api/path";
-import Database from "@tauri-apps/plugin-sql";
-import { useEffect, useRef, useState } from "react";
+import { appDataDir } from '@tauri-apps/api/path';
+import Database from '@tauri-apps/plugin-sql';
+import { useEffect, useRef, useState } from 'react';
 
 export async function Connection(): Promise<Database> {
-  const dir = (await appDataDir()).replace(/\/$/, "");
+  const dir = (await appDataDir()).replace(/\/$/, '');
   const db = await Database.load(`sqlite:${dir}/notas.db`);
 
-  await db.execute(
-    "CREATE TABLE IF NOT EXISTS notas(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL DEFAULT 'No Title Yet')",
-  );
-  await db.execute(
-    "CREATE TABLE IF NOT EXISTS carpetas(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL DEFAULT 'Folder default name')",
-  );
+  await db.execute("CREATE TABLE IF NOT EXISTS notas(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL DEFAULT 'No Title Yet')");
+  await db.execute("CREATE TABLE IF NOT EXISTS carpetas(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL DEFAULT 'Folder default name')");
   return db;
 }
 

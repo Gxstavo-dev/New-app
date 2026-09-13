@@ -1,18 +1,6 @@
-import { ReactNode, Ref } from "react";
+import { ReactNode, Ref } from 'react';
 
-export default function Card({
-  top,
-  left,
-  id,
-  children,
-  ref,
-}: {
-  top: number;
-  left: number;
-  id: number;
-  children: ReactNode;
-  ref?: Ref<HTMLDivElement>;
-}) {
+export default function Card({ top, left, id, children, ref }: { top: number; left: number; id: number; children: ReactNode; ref?: Ref<HTMLDivElement> }) {
   return (
     <div
       key={id}

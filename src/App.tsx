@@ -1,5 +1,5 @@
-import { ToggleSidebarProvider } from "./contexts/ToggleSidebar";
-import Sidebar from "./components/Sidebar";
+import { ToggleSidebarProvider } from './contexts/ToggleSidebar';
+import Sidebar from './components/Sidebar';
 
 export default function App() {
   return (

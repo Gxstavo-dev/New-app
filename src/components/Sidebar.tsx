@@ -1,14 +1,12 @@
-import { SidebarIcon } from "lucide-react";
-import { useHiddeBar } from "../contexts/ToggleSidebar";
-import Head from "./Sidebar/Head";
-import Actions from "./Sidebar/Actions";
+import { SidebarIcon } from 'lucide-react';
+import { useHiddeBar } from '../contexts/ToggleSidebar';
+import Head from './Sidebar/Head';
+import Actions from './Sidebar/Actions';
 
 export default function Sidebar() {
   const { hidde, toggle } = useHiddeBar();
   return (
-    <section
-      className={`${hidde ? "w-0" : "w-50"} h-full flex flex-col bg-neutral-50 border-r border-r-neutral-300 overflow-hidden `}
-    >
+    <section className={`${hidde ? 'w-0' : 'w-50'} h-full flex flex-col bg-neutral-50 border-r border-r-neutral-300 overflow-hidden `}>
       {hidde && (
         <button
           onClick={toggle}
