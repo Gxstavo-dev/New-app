@@ -6,9 +6,9 @@ export default function Head() {
   const { toggle } = useHiddeBar();
 
   return (
-    <section className="w-full h-7 flex items-center justify-end pr-2 bg-neutral-50">
-      <button className="w-5 h-full flex items-center justify-center cursor-pointer focus:outline-none text-neutral-400 hover:text-neutral-600" onClick={toggle}>
-        <Sidebar width={15} height={15} />
+    <section className="w-full h-10 flex items-center justify-end pr-2 bg-white border-b border-neutral-100 shrink-0">
+      <button className="w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer text-neutral-400 hover:bg-neutral-100 hover:text-neutral-600 focus:outline-none transition-colors" onClick={toggle}>
+        <Sidebar width={16} height={16} strokeWidth={1.75} />
       </button>
     </section>
   );

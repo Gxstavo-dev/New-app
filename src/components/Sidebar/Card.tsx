@@ -10,7 +10,7 @@ export default function Card({ top, left, id, children, ref }: { top: number; le
         top: top + 30,
         left: left + 100,
       }}
-      className=" fixed flex gap-2 p-2 flex-col items-center justify-center rounded-2xl border-2 border-neutral-200 bg-white"
+      className="fixed flex flex-col items-stretch p-1 rounded-xl border border-neutral-200 bg-white shadow-lg shadow-black/5 z-50"
     >
       {children}
     </div>

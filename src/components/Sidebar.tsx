@@ -7,13 +7,13 @@ import Actions from './Sidebar/Actions';
 export default function Sidebar() {
   const { hidde, toggle } = useHiddeBar();
   return (
-    <section className={`${hidde ? 'w-0' : 'w-50'} h-full flex flex-col bg-neutral-50 border-r border-r-neutral-300 overflow-hidden `}>
+    <section className={`${hidde ? 'w-0' : 'w-60'} h-full flex flex-col bg-white border-r border-r-neutral-200 overflow-hidden transition-[width] duration-300 ease-out`}>
       {hidde && (
         <button
           onClick={toggle}
-          className="w-7 h-7 fixed bottom-3 left-3 flex items-center justify-center rounded-xl cursor-pointer focus:outline-none text-neutral-400 hover:text-neutral-600"
+          className="w-8 h-8 fixed bottom-4 left-4 flex items-center justify-center rounded-lg bg-white border border-neutral-200 shadow-sm cursor-pointer text-neutral-500 hover:text-neutral-700 hover:border-neutral-300 focus:outline-none transition-colors"
         >
-          <SidebarIcon width={15} height={15} />
+          <SidebarIcon width={16} height={16} strokeWidth={1.75} />
         </button>
       )}
       <Head />
