@@ -1,4 +1,4 @@
-import { ListCheck, Search, StickyNote } from 'lucide-react';
+import { Search, StickyNote } from 'lucide-react';
 import { useState } from 'react';
 
 const searchData = [
@@ -25,11 +25,6 @@ export default function Quicks() {
         Nueva nota
       </button>
 
-      <button className="w-full h-9 text-[12px] text-white flex items-center gap-2 pl-2 rounded-md hover:bg-neutral-800/40 cursor-pointer">
-        <ListCheck width={14} height={14} strokeWidth="1.4" />
-        Tareas
-      </button>
-
       <div className="flex flex-col gap-3 overflow-scroll">
         <button
           onClick={() => setSearch(!isSearch)}
@@ -53,7 +48,7 @@ export default function Quicks() {
           {results.map((item) => (
             <button
               key={item.id}
-              className="w-full h-9 text-[12px] text-white flex flex-col items-start justify-center gap-0 pl-2 rounded-md hover:bg-neutral-800/40 cursor-pointer"
+              className="w-full h-9 text-[12px] text-left text-white flex flex-col items-start justify-center gap-0 pl-2 rounded-md hover:bg-neutral-800/40 cursor-pointer"
             >
               <span>{item.title}</span>
               <span className="text-[10px] text-neutral-500 truncate w-full">{item.content}</span>
