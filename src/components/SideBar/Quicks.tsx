@@ -22,7 +22,7 @@ export default function Quicks() {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        setSearch(true);
+        setSearch((prev) => !prev);
       }
     };
     window.addEventListener('keydown', onKeyDown);
@@ -43,7 +43,12 @@ export default function Quicks() {
             className="w-full h-9 text-[12px] text-white flex items-center gap-2 pl-2 rounded-md hover:bg-neutral-800/40 cursor-pointer transition-[height] ease-spring duration-500"
           >
             <Search width={14} height={14} strokeWidth="1.4" />
-            {!isSearch && 'Buscar'}
+            {!isSearch && (
+              <p className="w-full h-full flex items-center justify-between pr-2">
+                Buscar
+                <span className="text-gray-600">Ctrl + k</span>
+              </p>
+            )}
           </div>
 
           {isSearch && (
