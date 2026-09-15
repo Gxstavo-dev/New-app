@@ -1,5 +1,5 @@
 import { Search, StickyNote } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const searchData = [
   { id: 1, title: 'Lista de compras', content: 'Leche, pan y huevos' },
@@ -18,6 +18,17 @@ export default function Quicks() {
 
   const results = searchData.filter((item) => `${item.title} ${item.content}`.toLowerCase().includes(query.toLowerCase()));
 
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearch(true);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
   return (
     <article className="w-full flex flex-col gap-3 p-2">
       <button className="w-full h-9 text-[12px] text-white flex items-center gap-2 pl-2 rounded-md hover:bg-neutral-800/40 cursor-pointer">
@@ -26,23 +37,28 @@ export default function Quicks() {
       </button>
 
       <div className="flex flex-col gap-3 overflow-scroll">
-        <button
-          onClick={() => setSearch(!isSearch)}
-          className={`w-full h-9 text-[12px] text-white flex items-center gap-2 pl-2 rounded-md hover:bg-neutral-800/40 cursor-pointer transition-[height] ease-spring duration-500`}
-        >
-          <Search width={14} height={14} strokeWidth="1.4" />
-          {isSearch ? (
-            <input
-              autoFocus
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Buscar nota..."
-              className="flex-1 h-full bg-transparent outline-none placeholder:text-neutral-500 text-[12px] text-white"
-            />
-          ) : (
-            'Buscar'
+        <div className="relative w-full h-9">
+          <div
+            onClick={() => setSearch(!isSearch)}
+            className="w-full h-9 text-[12px] text-white flex items-center gap-2 pl-2 rounded-md hover:bg-neutral-800/40 cursor-pointer transition-[height] ease-spring duration-500"
+          >
+            <Search width={14} height={14} strokeWidth="1.4" />
+            {!isSearch && 'Buscar'}
+          </div>
+
+          {isSearch && (
+            <div className="pointer-events-none absolute inset-0 flex items-center pl-8">
+              <input
+                autoFocus
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onDoubleClick={() => setSearch(false)}
+                placeholder="Buscar nota..."
+                className="pointer-events-auto w-full h-full bg-transparent outline-none placeholder:text-neutral-500 text-[12px] text-white"
+              />
+            </div>
           )}
-        </button>
+        </div>
 
         <div className={`transition-all ease-spring duration-500 overflow-scroll scrollbar-thin ${isSearch ? 'opacity-100 max-h-30 ' : 'opacity-0 max-h-0'}`}>
           {results.map((item) => (
