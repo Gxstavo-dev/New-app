@@ -9,6 +9,44 @@ export async function Connection(): Promise<Database> {
   const db = await Database.load(`sqlite:${dir}/notas.db`);
   //await db.execute("CREATE TABLE IF NOT EXISTS notas(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL DEFAULT 'No Title Yet')");
   //await db.execute("CREATE TABLE IF NOT EXISTS carpetas(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL DEFAULT 'Folder default name')");
+  await db.execute(`
+
+        CREATE TABLE IF NOT EXISTS project(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          nameProject TEXT NOT NULL DEFAULT 'Project',
+          created_at TEXT DEFAULT (datetime('now')),
+          updated_at TEXT DEFAULT (datetime('now'))
+        );
+
+        CREATE TABLE IF NOT EXISTS note(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT NOT NULL DEFAULT 'No title yet',
+          content TEXT,
+          folderId INTEGER,
+          created_at TEXT DEFAULT (datetime('now')),
+          updated_at TEXT DEFAULT (datetime('now')),
+          FOREIGN KEY (folderId) REFERENCES folder(id) ON DELETE CASCADE
+        );
+
+        CREATE TABLE IF NOT EXISTS folder(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT NOT NULL DEFAULT 'Folder',
+          created_at TEXT DEFAULT (datetime('now')),
+          updated_at TEXT DEFAULT (datetime('now')),
+          projectId INTEGER,
+          FOREIGN KEY (projectId) REFERENCES project(id) ON DELETE CASCADE
+        );
+
+        CREATE TABLE IF NOT EXISTS remembers(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT NOT NULL,
+          date TEXT DEFAULT (strftime('%d/%m', 'now')),
+          hour TEXT DEFAULT (strftime('%H:%M', 'now')),
+          created_at TEXT DEFAULT (datetime('now')),
+          updated_at TEXT DEFAULT (datetime('now'))
+        );
+
+    `);
   return db;
 }
 
