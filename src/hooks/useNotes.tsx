@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useConnection } from './useConnection';
 import Database from '@tauri-apps/plugin-sql';
-import NotesTypes from '../interfaces/NotesType';
+import NotesTypes from '../interfaces/NotesTypes';
 
 export default function useNotes() {
   const { connexion } = useConnection();
@@ -25,20 +25,19 @@ export default function useNotes() {
   };
 
   const Update = async (db: Database, id: number, title?: string, content?: string, folderId?: number) => {
-    if (title) {
+    if (title !== undefined) {
       await db.execute('UPDATE note SET title = $1 WHERE id=$2', [title, id]);
-      ShowNotes(db);
     }
 
-    if (content) {
+    if (content !== undefined) {
       await db.execute('UPDATE note SET content = $1 WHERE id=$2', [content, id]);
-      ShowNotes(db);
     }
 
-    if (folderId) {
+    if (folderId !== undefined) {
       await db.execute('UPDATE note SET folderId = $1 WHERE id=$2', [folderId, id]);
-      ShowNotes(db);
     }
+
+    ShowNotes(db);
   };
 
   const Delete = async (db: Database, id: number) => {

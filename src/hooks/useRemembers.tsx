@@ -18,17 +18,24 @@ export default function useRemembers() {
     setRemembers(Remembers);
   };
 
-  const Create = async (db: Database, title: string, date: number, hour: number) => {
+  const Create = async (db: Database, title: string, date: string, hour: string) => {
     const id = await db.execute('INSERT INTO remembers(title,date,hour) VALUES ($1,$2,$3)', [title, date, hour]);
     ShowRemembers(db);
     return id;
   };
 
-  const Update = async (db: Database, id: number, title?: string, date?: number, hour?: number) => {
+  const Update = async (db: Database, id: number, title?: string, date?: string, hour?: string) => {
     if (!id) return;
-    const newRemember = await db.execute('UPDATE remembers SET title=$1, date=$2, hour=$3  WHERE id=$4', [title, date, hour, id]);
+    if (title !== undefined) {
+      await db.execute('UPDATE remembers SET title = $1 WHERE id=$2', [title, id]);
+    }
+    if (date !== undefined) {
+      await db.execute('UPDATE remembers SET date = $1 WHERE id=$2', [date, id]);
+    }
+    if (hour !== undefined) {
+      await db.execute('UPDATE remembers SET hour = $1 WHERE id=$2', [hour, id]);
+    }
     ShowRemembers(db);
-    return newRemember;
   };
 
   const Delete = async (db: Database, id: number) => {

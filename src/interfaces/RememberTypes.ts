@@ -1,8 +1,8 @@
 export default interface RememberTypes {
   id: number;
-  nameProject: string;
-  date: number;
-  hour: number;
+  title: string;
+  date: string;
+  hour: string;
   created_at: string;
   updated_at: string;
 }

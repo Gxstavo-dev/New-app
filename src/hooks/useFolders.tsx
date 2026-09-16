@@ -24,8 +24,13 @@ export default function useFolders() {
     return idProject;
   };
 
-  const Update = async (db: Database, id: number, title: string) => {
-    await db.execute('UPDATE folder SET title = $1 WHERE id=$2', [title, id]);
+  const Update = async (db: Database, id: number, title?: string, projectId?: number) => {
+    if (title !== undefined) {
+      await db.execute('UPDATE folder SET title = $1 WHERE id=$2', [title, id]);
+    }
+    if (projectId !== undefined) {
+      await db.execute('UPDATE folder SET projectId = $1 WHERE id=$2', [projectId, id]);
+    }
     ShowFolders(db);
   };
 
