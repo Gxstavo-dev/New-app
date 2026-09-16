@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useConnection } from './useConnection';
+import { useConnection } from '../contexts/ConnectionContext';
 import ProjectTypes from '../interfaces/ProjectTypes';
 import Database from '@tauri-apps/plugin-sql';
 
@@ -18,35 +18,40 @@ export default function useProjects() {
     setProjects(Projects);
   };
 
-  const Create = async (db: Database, name: string) => {
-    const idProject = await db.execute('INSERT INTO project(nameProject) VALUES($1)', [name]);
-    ShowProjects(db);
+  const Create = async (name: string) => {
+    if (!connexion) return;
+    const idProject = await connexion.execute('INSERT INTO project(nameProject) VALUES($1)', [name]);
+    ShowProjects(connexion);
     return idProject;
   };
 
-  const Update = async (db: Database, id: number, name: string) => {
+  const Update = async (id: number, name: string) => {
+    if (!connexion) return;
     if (!id) return;
-    const newName = await db.execute('UPDATE project SET nameProject=$2 WHERE id=$1', [id, name]);
-    ShowProjects(db);
+    const newName = await connexion.execute('UPDATE project SET nameProject=$2 WHERE id=$1', [id, name]);
+    ShowProjects(connexion);
     return newName;
   };
 
-  const Delete = async (db: Database, id: number) => {
+  const Delete = async (id: number) => {
+    if (!connexion) return;
     if (!id) return;
-    const ok = await db.execute('DELETE FROM project WHERE id=$1', [id]);
-    ShowProjects(db);
+    const ok = await connexion.execute('DELETE FROM project WHERE id=$1', [id]);
+    ShowProjects(connexion);
     return ok;
   };
 
-  const AscDates = async (db: Database) => {
-    const asc = await db.select<ProjectTypes[]>('SELECT * FROM project ORDER BY created_at ASC');
-    ShowProjects(db);
+  const AscDates = async () => {
+    if (!connexion) return;
+    const asc = await connexion.select<ProjectTypes[]>('SELECT * FROM project ORDER BY created_at ASC');
+    ShowProjects(connexion);
     return asc;
   };
 
-  const DescDates = async (db: Database) => {
-    const desc = await db.select<ProjectTypes[]>('SELECT * FROM project ORDER BY created_at DESC');
-    ShowProjects(db);
+  const DescDates = async () => {
+    if (!connexion) return;
+    const desc = await connexion.select<ProjectTypes[]>('SELECT * FROM project ORDER BY created_at DESC');
+    ShowProjects(connexion);
     return desc;
   };
 

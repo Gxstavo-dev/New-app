@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useConnection } from './useConnection';
+import { useConnection } from '../contexts/ConnectionContext';
 import Database from '@tauri-apps/plugin-sql';
 import NotesTypes from '../interfaces/NotesTypes';
 
@@ -18,44 +18,49 @@ export default function useNotes() {
     setNotes(Notes);
   };
 
-  const Create = async (db: Database, title: string) => {
-    const idProject = await db.execute('INSERT INTO note(title) VALUES($1)', [title]);
-    ShowNotes(db);
+  const Create = async (title: string) => {
+    if (!connexion) return;
+    const idProject = await connexion.execute('INSERT INTO note(title) VALUES($1)', [title]);
+    ShowNotes(connexion);
     return idProject;
   };
 
-  const Update = async (db: Database, id: number, title?: string, content?: string, folderId?: number) => {
+  const Update = async (id: number, title?: string, content?: string, folderId?: number) => {
+    if (!connexion) return;
     if (title !== undefined) {
-      await db.execute('UPDATE note SET title = $1 WHERE id=$2', [title, id]);
+      await connexion.execute('UPDATE note SET title = $1 WHERE id=$2', [title, id]);
     }
 
     if (content !== undefined) {
-      await db.execute('UPDATE note SET content = $1 WHERE id=$2', [content, id]);
+      await connexion.execute('UPDATE note SET content = $1 WHERE id=$2', [content, id]);
     }
 
     if (folderId !== undefined) {
-      await db.execute('UPDATE note SET folderId = $1 WHERE id=$2', [folderId, id]);
+      await connexion.execute('UPDATE note SET folderId = $1 WHERE id=$2', [folderId, id]);
     }
 
-    ShowNotes(db);
+    ShowNotes(connexion);
   };
 
-  const Delete = async (db: Database, id: number) => {
+  const Delete = async (id: number) => {
+    if (!connexion) return;
     if (!id) return;
-    const ok = await db.execute('DELETE FROM note WHERE id=$1', [id]);
-    ShowNotes(db);
+    const ok = await connexion.execute('DELETE FROM note WHERE id=$1', [id]);
+    ShowNotes(connexion);
     return ok;
   };
 
-  const AscDates = async (db: Database) => {
-    const asc = await db.select<NotesTypes[]>('SELECT * FROM note ORDER BY created_at ASC');
-    ShowNotes(db);
+  const AscDates = async () => {
+    if (!connexion) return;
+    const asc = await connexion.select<NotesTypes[]>('SELECT * FROM note ORDER BY created_at ASC');
+    ShowNotes(connexion);
     return asc;
   };
 
-  const DescDates = async (db: Database) => {
-    const desc = await db.select<NotesTypes[]>('SELECT * FROM note ORDER BY created_at DESC');
-    ShowNotes(db);
+  const DescDates = async () => {
+    if (!connexion) return;
+    const desc = await connexion.select<NotesTypes[]>('SELECT * FROM note ORDER BY created_at DESC');
+    ShowNotes(connexion);
     return desc;
   };
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useConnection } from './useConnection';
+import { useConnection } from '../contexts/ConnectionContext';
 import FoldersTypes from '../interfaces/FoldersTypes';
 import Database from '@tauri-apps/plugin-sql';
 
@@ -18,38 +18,43 @@ export default function useFolders() {
     setFolders(Folders);
   };
 
-  const Create = async (db: Database, title: string, projectId: number) => {
-    const idProject = await db.execute('INSERT INTO folder(title,projectId) VALUES($1,$2)', [title, projectId]);
-    ShowFolders(db);
+  const Create = async (title: string, projectId: number) => {
+    if (!connexion) return;
+    const idProject = await connexion.execute('INSERT INTO folder(title,projectId) VALUES($1,$2)', [title, projectId]);
+    ShowFolders(connexion);
     return idProject;
   };
 
-  const Update = async (db: Database, id: number, title?: string, projectId?: number) => {
+  const Update = async (id: number, title?: string, projectId?: number) => {
+    if (!connexion) return;
     if (title !== undefined) {
-      await db.execute('UPDATE folder SET title = $1 WHERE id=$2', [title, id]);
+      await connexion.execute('UPDATE folder SET title = $1 WHERE id=$2', [title, id]);
     }
     if (projectId !== undefined) {
-      await db.execute('UPDATE folder SET projectId = $1 WHERE id=$2', [projectId, id]);
+      await connexion.execute('UPDATE folder SET projectId = $1 WHERE id=$2', [projectId, id]);
     }
-    ShowFolders(db);
+    ShowFolders(connexion);
   };
 
-  const Delete = async (db: Database, id: number) => {
+  const Delete = async (id: number) => {
+    if (!connexion) return;
     if (!id) return;
-    const ok = await db.execute('DELETE FROM folder WHERE id=$1', [id]);
-    ShowFolders(db);
+    const ok = await connexion.execute('DELETE FROM folder WHERE id=$1', [id]);
+    ShowFolders(connexion);
     return ok;
   };
 
-  const AscDates = async (db: Database) => {
-    const asc = await db.select<FoldersTypes[]>('SELECT * FROM folder ORDER BY created_at ASC');
-    ShowFolders(db);
+  const AscDates = async () => {
+    if (!connexion) return;
+    const asc = await connexion.select<FoldersTypes[]>('SELECT * FROM folder ORDER BY created_at ASC');
+    ShowFolders(connexion);
     return asc;
   };
 
-  const DescDates = async (db: Database) => {
-    const desc = await db.select<FoldersTypes[]>('SELECT * FROM folder ORDER BY created_at DESC');
-    ShowFolders(db);
+  const DescDates = async () => {
+    if (!connexion) return;
+    const desc = await connexion.select<FoldersTypes[]>('SELECT * FROM folder ORDER BY created_at DESC');
+    ShowFolders(connexion);
     return desc;
   };
 

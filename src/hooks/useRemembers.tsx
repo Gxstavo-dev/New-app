@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useConnection } from './useConnection';
+import { useConnection } from '../contexts/ConnectionContext';
 import RememberTypes from '../interfaces/RememberTypes';
 import Database from '@tauri-apps/plugin-sql';
 
@@ -18,42 +18,47 @@ export default function useRemembers() {
     setRemembers(Remembers);
   };
 
-  const Create = async (db: Database, title: string, date: string, hour: string) => {
-    const id = await db.execute('INSERT INTO remembers(title,date,hour) VALUES ($1,$2,$3)', [title, date, hour]);
-    ShowRemembers(db);
+  const Create = async (title: string, date: string, hour: string) => {
+    if (!connexion) return;
+    const id = await connexion.execute('INSERT INTO remembers(title,date,hour) VALUES ($1,$2,$3)', [title, date, hour]);
+    ShowRemembers(connexion);
     return id;
   };
 
-  const Update = async (db: Database, id: number, title?: string, date?: string, hour?: string) => {
+  const Update = async (id: number, title?: string, date?: string, hour?: string) => {
+    if (!connexion) return;
     if (!id) return;
     if (title !== undefined) {
-      await db.execute('UPDATE remembers SET title = $1 WHERE id=$2', [title, id]);
+      await connexion.execute('UPDATE remembers SET title = $1 WHERE id=$2', [title, id]);
     }
     if (date !== undefined) {
-      await db.execute('UPDATE remembers SET date = $1 WHERE id=$2', [date, id]);
+      await connexion.execute('UPDATE remembers SET date = $1 WHERE id=$2', [date, id]);
     }
     if (hour !== undefined) {
-      await db.execute('UPDATE remembers SET hour = $1 WHERE id=$2', [hour, id]);
+      await connexion.execute('UPDATE remembers SET hour = $1 WHERE id=$2', [hour, id]);
     }
-    ShowRemembers(db);
+    ShowRemembers(connexion);
   };
 
-  const Delete = async (db: Database, id: number) => {
+  const Delete = async (id: number) => {
+    if (!connexion) return;
     if (!id) return;
-    const ok = await db.execute('DELETE FROM remembers WHERE id=$1', [id]);
-    ShowRemembers(db);
+    const ok = await connexion.execute('DELETE FROM remembers WHERE id=$1', [id]);
+    ShowRemembers(connexion);
     return ok;
   };
 
-  const AscDates = async (db: Database) => {
-    const asc = await db.select<RememberTypes[]>('SELECT * FROM remembers ORDER BY created_at ASC');
-    ShowRemembers(db);
+  const AscDates = async () => {
+    if (!connexion) return;
+    const asc = await connexion.select<RememberTypes[]>('SELECT * FROM remembers ORDER BY created_at ASC');
+    ShowRemembers(connexion);
     return asc;
   };
 
-  const DescDates = async (db: Database) => {
-    const desc = await db.select<RememberTypes[]>('SELECT * FROM remembers ORDER BY created_at DESC');
-    ShowRemembers(db);
+  const DescDates = async () => {
+    if (!connexion) return;
+    const desc = await connexion.select<RememberTypes[]>('SELECT * FROM remembers ORDER BY created_at DESC');
+    ShowRemembers(connexion);
     return desc;
   };
 
